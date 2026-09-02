@@ -80,20 +80,20 @@ static const uint8_t LP_TX = 11;
 // #define TFT_HEIGHT 320
 
 /* ---------------------   */
-// Setup for ST7789 240x320
+// Setup for ST7789 240x240
 
-// #define ST7789_DRIVER=1
-// #define TFT_WIDTH=240
-// #define TFT_HEIGHT=320
+ #define ST7789_DRIVER 1
+ #define TFT_WIDTH 240
+ #define TFT_HEIGHT 240
 // // #define TFT_INVERSION_ON
-// #define TFT_RGB_ORDER=TFT_BGR
+ #define TFT_RGB_ORDER TFT_BGR
 
 /* ---------------------   */
 // Setup for ILI9341 320x240 (no touch)
 
-#define ILI9341_DRIVER 1
-#define TFT_HEIGHT 320
-#define TFT_WIDTH 240
+// #define ILI9341_DRIVER 1
+// #define TFT_HEIGHT 320
+// #define TFT_WIDTH 240
 
 /* ---------------------   */
 // Common TFT definitions
