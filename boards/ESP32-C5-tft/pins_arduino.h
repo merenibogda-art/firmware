@@ -101,9 +101,9 @@ static const uint8_t LP_TX = 11;
 #define TFT_BL -1
 #define TFT_RST 14
 #define TFT_DC 15
-#define TFT_MISO 2 // set to share SPI with other devices
-#define TFT_MOSI 7
-#define TFT_SCLK 6
+#define TFT_MISO -1 // set to share SPI with other devices
+#define TFT_MOSI 5
+#define TFT_SCLK 4
 #define TFT_CS -1
 #define TOUCH_CS 1
 #define SMOOTH_FONT 1
