@@ -169,4 +169,4 @@ static const uint8_t LP_TX = 11;
 #endif /* Pins_Arduino_h */
 #build_flags = 
     -UFP
- 
+    -std=gnu++17
