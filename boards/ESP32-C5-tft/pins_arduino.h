@@ -167,5 +167,3 @@ static const uint8_t LP_TX = 11;
 #define W5500_SCK_PIN SPI_SCK_PIN
 #define W5500_MISO_PIN SPI_MISO_PIN
 #endif /* Pins_Arduino_h */
-#build_flags = 
-    -UFP
