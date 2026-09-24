@@ -19,8 +19,8 @@ static const uint8_t RX = 12;
 static const uint8_t USB_DM = 13;
 static const uint8_t USB_DP = 14;
 
-static const uint8_t SDA = 4;
-static const uint8_t SCL = 5;
+static const uint8_t SDA = 1;
+static const uint8_t SCL = 0;
 
 static const uint8_t SS = 10;
 static const uint8_t MOSI = 7;
@@ -98,13 +98,13 @@ static const uint8_t LP_TX = 11;
 /* ---------------------   */
 // Common TFT definitions
 #define TFT_BACKLIGHT_ON 1
-#define TFT_BL 25
-#define TFT_RST -1
-#define TFT_DC 24
+#define TFT_BL -1
+#define TFT_RST 14
+#define TFT_DC 15
 #define TFT_MISO 2 // set to share SPI with other devices
 #define TFT_MOSI 7
 #define TFT_SCLK 6
-#define TFT_CS 23
+#define TFT_CS -1
 #define TOUCH_CS 1
 #define SMOOTH_FONT 1
 #define SPI_FREQUENCY 20000000
@@ -139,30 +139,30 @@ static const uint8_t LP_TX = 11;
 #endif
 
 // InfraRed
-#define RXLED 26
+#define RXLED 25
 #define TXLED 3
 #define LED_ON HIGH
 #define LED_OFF LOW
 // SDCard
-#define SDCARD_CS 10
+#define SDCARD_CS 26
 #define SDCARD_SCK SPI_SCK_PIN
 #define SDCARD_MISO SPI_MISO_PIN
 #define SDCARD_MOSI SPI_MOSI_PIN
 // CC1101
-#define CC1101_GDO0_PIN 8
-#define CC1101_SS_PIN 1
+#define CC1101_GDO0_PIN -1
+#define CC1101_SS_PIN 8
 #define CC1101_MOSI_PIN SPI_MOSI_PIN
 #define CC1101_SCK_PIN SPI_SCK_PIN
 #define CC1101_MISO_PIN SPI_MISO_PIN
 // NRF24
-#define NRF24_CE_PIN 8
+#define NRF24_CE_PIN 13
 #define NRF24_SS_PIN 9
 #define NRF24_MOSI_PIN SPI_MOSI_PIN
 #define NRF24_SCK_PIN SPI_SCK_PIN
 #define NRF24_MISO_PIN SPI_MISO_PIN
 // Ethernet
-#define W5500_INT_PIN 8
-#define W5500_SS_PIN 15
+#define W5500_INT_PIN -1
+#define W5500_SS_PIN 10
 #define W5500_MOSI_PIN SPI_MOSI_PIN
 #define W5500_SCK_PIN SPI_SCK_PIN
 #define W5500_MISO_PIN SPI_MISO_PIN
