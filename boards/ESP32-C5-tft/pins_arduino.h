@@ -132,8 +132,8 @@ static const uint8_t LP_TX = 11;
 // Buttons
 #define HAS_3_BUTTONS
 #define SEL_BTN 28
-#define DW_BTN 1
-#define UP_BTN 0
+#define DW_BTN 4
+#define UP_BTN 5
 #define BTN_ACT LOW
 #define DEEPSLEEP_WAKEUP_PIN SEL_BTN
 #endif
