@@ -1,0 +1,82 @@
+name: Apply and Build Liviu S3
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  apply_and_build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+      - name: Create separate branch and apply S3 files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PYCODE'
+          import base64, json, zlib
+          from pathlib import Path
+          data = json.loads(zlib.decompress(base64.b64decode("eNqVOgtz2kjSf2WOvVrBGQQCYjt22CseskMFAx+PZK+MTyWkAXQRklYjYfuy/u9f98zohSF3l1Qc06/p6ennDD9Ka98MbVYfOQcnrs1b9cDxmAGg2PF8dVe6IaVfnI1n0w2ZIqYrMMZu5f0CQMej7+GOZ7mxTcknFtmOF6m731beyqvXyT8GNRa9upTMW7Wxdjm7JhdEUz+0CXDsyHxxdXX9kcynwyppthsv8E/lbPfT4YR48X5NQ1Yl48mCBLtX5limS3bUtGlIAp85keN7TCVzSslM7w4e9FqyJ3Vvq5m6y3nP+DockMZLq9Eyi/Aph2uNhrbyWGRGjkUskBoR2Ft0bURk8TvpkHbr9gx6xtHtc+j5oAt47eosvj9C/OVZ/BzRjXPoh8l8iATaWYLhfIIErfMKfEF88xYPLDHM5+7cmPdnuj4mWhHaMnrLxWIynmfg2WTRXQwnBdLlXJ8Zc32xnBqjSXegD/JIcerGYDb8qs/yiMXdwvg2HCw+ozMUwZ/14f3nxXv47L5nTGYDkIOfevezIhrM+wU2VwRyo2kad7SBwwLXfCU7kxHPF+YKTFsli53D0FQbZxuHlJFoRwnbmSG1yTpmZOOHZLL4DOvufTt2KVOP1kBBWqsI7M/hKIugQZ98PNrRfEGuuW69EbGc0IqdiDioHfxnUy9yNg4osQn9PVcq2PmRr5KxL4LGDp0DhegCHDCtY8e1RUgNfB5HLjUBj6J9z6NWBKIiwapdi1Bi5oYS2zG3ns/QX56d0PG2KFIE2dFOQVQtd4a9bv/LiJ9V7ehkU4xR9JWH4bg34xx5hsmy/xkNlpcCecK4m+n/t9TH/X+AKcWfIh51/CkR+qNxP+oPjkB3k/GieQLWPgG7PAG7OgG7Pl727ve7u5y+DxPwIU6Je+fH1LUiOMCa6z/D4UURT3APPhzZXB+JQ8ezal8np9bWcucBNEZvMSbtfChOOaiVc7PBN0GVswp8Nrr9Baj57Qg4GnbnZFWafFmVuILgaANdn85H8MP41v2iwwLT4fhGapO4qgnusuhzoJrwYQLBgB3pgxvie7wOEfiAPDZ1Hcj2ZkTdVy6AO7KnSrNMvDT84JQxBFWim1BCRPjx+HUiRvxnj/TnatEnIMehioVEgHBMBAJx5GQYvQLROpI0F+C80w363dkA1yjKF+A01xzDj/ODhGOKyGdiSKRGv69pDQ0qWNcAHTKchJ/anUSd3GCCO7XHRKTY5tU7xP1g0uCoy1OoJkfV3m1gPLtrtt/rL8Cn1BeYk9pL1CnlpTyhe/sY3tc5/IN0KB5T3z58aDTAX7LAapEyi0IzqKTx1VSLm+E87zcjwKc2IzAnNyNRpzYj5cnNvBM3HC845h0CygdHtK7lRqfjD60m2cdQ89cQQ89OZO1E0h82+xg+FEKRV5KHyWA50oEKihvUFf+ZhjXfy23/fjb5qhvY0mhX76DQyGg5r7ifQguhz4bdkQEdlPbhJAaaJ60tqhO1obvDamTGL47rmOErWXZniySdbJwIkLfE9kV2AQoMeHFK8zpspZAGk3UL1SNds1CZfscE1MxBZhzSzudzfYA16zMUqSPg3V0xYw5nsCraf05+/FiVhjORxsJVCRpc7e2tQDkrUobUoglt+wppRdZkNDAxLxIGZdilNajHoOSdzHw3JGZJDEKNZhG0xzlTzO4KCo3Bdmnhx4VqBaWAevZfUFPPdjYrDwDvZgnoKmm4MS2qWkEgRgk5GqxKFrhVnbvVHHoQdYcFJZscMs50eOibrgse4XtQEsBvd2Ai061CqUh8BScXbFqgM/JMXjihvzlQl5GefjeZ6cSPoyCOuJeraQN88B1bYj47210ZVkZJFfJj5RH442xIGT6TT6RRgSWjOPRuBcZ2tk5kut9CJ6JIUuU+UZFYADzAQgIxWS6mywWi3nA3fE2DgbDA2AaOX05XyykiesREXA6RFocTuELKPoHPZ8UT6HyeOYGWHekZzKB/VqLMQ5VTlssn5CoG0LEFiwSZKfM0RxWpSobjE1SFbClpjOlyNFpOj0lFo/RzGtE5/ZxGNmGniQp24LnnpAEk5vTOZwJZ2C9PoRszdiMxm2xgZtkRFvmhuaW30NMfIFwgU4SQTqIIEgkj0EwR14dh2iYuRFNI1q+kF8YWRgqKXOPvfT4B4byvhpsH0Wt10jaB91BYNG7PsSxegLymncXP/gPesdNFeSEzINMX15zT0DFdNYAhJXK98qr0mCSjJxw7oBTXNa2utaDMaw0y6H8k4JrXt0l3DY1xvd2ot7VbHIroCxjCM91VKY1czA5bGvVMKEDhK8atzAmkcUveiMjRB9+NwNBwvAeY0cK6Ba3qFkwK3Szd0wiKmShgYNq177tQ1fpIAeeQF7gxXQaH9ZZLF70QQiryKGPlZGJfc9DBdJGzjJSVFJTTCMzCB0XYlahBapqHhh7GqunZLg2zRCSzIy4DdobMvzO9LbW7Edi+cXuahu75ts7RoLpBSA+OH7OZ+Zwjyi4huBzPR+TecV2HlSvvaFBOyPnLMoBmUOZkxFZIp4MxRP5ONHKDOftPwX/qT4FfRHOOv/m/8ctIzwlocwG3WR1Brf/SyRshtTcP6YJxgPg2w+XtD/aRmLdM9l9Q+J9/cuPVcuSfSPPDUeHi5CPf204hLzDy66+SKTu/T0S7Pi53+dPNNEBZz+Z3ugzmVkipV64csXW91y/0VazUIVEY0xwnt8ivpMWN1ioYQ2fWCSb8A+BDghJBkuHGELPncHPqnkMVNJZGzS8j9dQqeHyJ1+bXkgTNAkFuQYlvp/g32dVAcK5FMhE9NmZfGGQhHPEGCobmmmUG5hpyHoPsYUUyU6lkCY2euPGRV6GimVdlVHNhk80GIzpJIdDqW99nFHJOJMGnmrb01tTxHOzZbiFD2DSANo9C8qPewQl9bw+/30D/TRm/R3K8HWSYiPiuTfofCJQcvJh1ce/6fFq7px4M8y7ZuOYW78YeQcqNy9dhrZqnXYbXTyt5A9AhRYSEG+LyKrmY3tO9H74a0WuAxeAPxzf8wCmSQp8ciUthoLBg4vH3hnb5sFYtdkgo4wBrngp6sZ3BnH9Tfv360AM8yjBYaBkbx8V62CF//QFqq8eIN3LxSVXrR1b8LZHAt0w6wiHyEjhCulpteMQuwYOB/nUIjc+4+6B3lFWJo8m8Rfjl+aqkJHR9aG+Ngd5b3hsj/as+6mjJ+rF3VgOJAh1cZ204Ww8HPUl3Z7II+gqBgtM/EpBAiy5kiP+NfzHfqxdPUUUYehOP8FWJa7ACgIz4VUmebA6GUNdmVugEEYJXJcqCVpO1DOgvVWSvZoTZaQvS4wPP0+acRxAn/lOSCaCaKIVDSm7pVAp8folCUxwiEjxm0muD0fDrcGnMW4Y8pmoeCa37cjieGBAXrSbQwBGfoZgtx+Ph+N7Aw4UDPSPmqw7t7H9Fig8c/UEfhlejN5ksfkoHTdV7Qb0Jzh14bzedz7oPiBfop9QsG8MKYmGxZlveto5yZtsYPNYExfUpAh6KOKKlR5PD7p4du2jvxyyJr0r8Saeb01oA+XtOKYE9Heu8t+KCe+XWO5jQTnrS+6DjBsdjQpLwEfQQPhGDs0evOcXAw92YRpBpdzlxz9CECfYnyW7TdbwtxIEtGncDeN1UrRrGCzTqOVnyxpTTHbtggeN4uz6kct8CRmxKi4GlWpttcXub0NzTZz/8zgqbS4M1iwcWOPamuDkPeIX8YuJKXvrkI5+UsiqJbFywRpaZhSCenLNV9+aLs4/3BmiZErWaV5fXjXckCVq7vLq6amqXKUFI/4idkMpaYAR+yI2CTUdKwwJKuWLty8Y1vh9kFopDeUy7KArYTb1u+xZTwRxY+Z2Navn7ehD6/wInYXU8GDBTnUJ+hCmLRXVp+fruuRbSDQ2pZ9EUiCNabRvDEFGz6eE71Peapu6ivZua7ABl2Q+FAnqyJp6CzMzcO+q88Bs8IxtwysErZuIV/zuXz4BIwfjlyg02HpZrOnvibwhvOkLeYEBV9z1UxLEogfHCsU1MuKoQBLPRHm0HjbqLPDwVJzDM/iuP36sGZrSD8kEkZgofUzJItsmvLF6D1SzYDzZKIQQSDn1AXDaw8FLDqKiwW9890HIFaz00JPK/lSdfhaGHRr46UX7+yA1l9Beiw45ivFjDpmqmd0fAHONsnLwxm4z0Ly6q4sYRujGIfJtAm20/h9gYeziRkwhbNehwIqgPsH62C1WcgbgZKctAUrYXF0qVKLUX/GnJDzr/aT/w/46KiSJdUqnJqzIgYlFYPtqoTFXH+6ygRNjtUxU6NtCjs1aA33q2O8hfUW3YlA32XHl70wp9bJxsx4rKIVU3jmebrlsOlX8m94Pl1er5okLK6kXlryAGt1yFI1QfKhU8M/zKANi0jFmgciOnQZzruOhHBD+poLsT4IJZFw6qRWVWwfkA141dd48tMaxc+/tqZaONAEuhgefiGV8Msg+IflRgxkeziSsJ/I1fHuEv/O4HfxHXZwo2nBBfqJHMNpz5Rgjhb8VInTwRp78P5xMlSabJOshUfH/JlEjv+vMgecefCRJqopzCO0i6g4KU4qtHJkRsEYUU3h/S3ReEFF8bMiHSPCgle8zK7JYaI/d0xZkh4eBVE9i0Sr7TV4ZPxNzAqhPRPczx0gVMBkktIo94dt8r/HrqO9IizxOOgY9as0o0Df61wE/LqUA4Z/oCPs/wYrdDFEWRr+jy5Tx5Lk+ePeVTp3zeTC9NV17xWev4LavwbpS/elx5hVeY4stL8bklexpJn0NWXvENpPjuId4d+FUe7EtlgetEGBWOCCFFPK0rFfIbTI/SkJkxLqTnIwm4NYMxHEeeLA+rsqngwew6LKqIw+KGz8nBM89eSPkp5x5G08+pzyRRDQvK83xSzQBHRfh15cmjxrThUq984FO+xo/8gCsjn4ppl4J7QG7i6iGwggl5kDzuuL7FHzzwJY5f8leJ6ODlB8/kd/3QtuJrAPRT4q2IlysxU87ue5CTUdIzxQmTUchpeEFSRjf7WKmQP8mPJvzeuoZ/H6uk3YB/8Lnd5K8vGW8NskXrLd0aCuIKk08dImmqOWgtAaYcxePs4HUnmDW9luNbTm7rbsjahKkfcy1/sUsfwuU3NJT3UvkXZoTgFCa+LSOA/CszkkkpfPVGwRORaR9vH5Tsaz85VMZ88ntAnBILwWk6+dyviK+vJJTJ3I9Ngoo9GCsf17P/NFkq2AxA84YCy5XM9Tjbo8KnTeXpUYFWX+FJRpEtlnJMKrpApM1aT8mCvadyVrSssnyVbL6UrHLAPM8tBw1JLsu3go3PM+s8Polw5Z4AZkutczTkFq0gsgjyZMkX8gmaHoFJ6SVSsOpKACBglsbbpF1Z+UWp3ODVKzRCMRUysHBDtX8Nqtje4Car0ChuwOkBANaqkr8ZWIutdAXU3ULFxbo8uSlVpfKUXhGHwAspYhvtOlj9pbhGpcp7ARTaqBTKB+e5ECwYe3zIE1/t4Z0EmC3JRGUhP89R5T1JRZhXZdBvlovpynzUnj511o+NJ668WV2j+v+G3SBHFX88ajdPOU8zvVfe6fDz25hWBB6g8EDiCyNY6sglCp1APa4KCkeZII6/XJSVaXc+v+EdqHzYlF1oNfe9lyqJPeePmPLzCX03SYc+9E2g00FygqFTsfIitDB+VfmNV126KPJ7NR9SkAv2w/ZXboakNyyyyc2JxStA3t9izgLyGKaFab8nvyxWTR5E6lYcYoNezS4t+UUCZn7xxTuwTADJL9jhdSHjS6C1+BsqGop3FXhe1OYZNuktwEmFKhsFU+MPYLhpvsEcyZngGN9QVOnt/wGqZ4F1")))
+          router = Path("boards/pinouts/pins_arduino.h")
+          old = router.read_text()
+          marker = '#ifdef T_DISPLAY_S3\n#include "../lilygo-t-display-s3/pins_arduino.h"'
+          insert = '#if defined(LIVIU_S3_N16R8)\n#include "../Liviu-S3/pins_arduino.h"\n#elif defined(T_DISPLAY_S3)\n#include "../lilygo-t-display-s3/pins_arduino.h"'
+          if 'LIVIU_S3_N16R8' not in old:
+              if marker not in old:
+                  raise SystemExit("Unexpected pin router. No files changed; inspect upstream changes.")
+              router.write_text(old.replace(marker, insert, 1))
+          for filename, content in data.items():
+              p = Path(filename)
+              p.parent.mkdir(parents=True, exist_ok=True)
+              p.write_text(content)
+          print("Applied dedicated S3 profile. Existing C5 profiles were not changed.")
+          PYCODE
+          python3 tools/check_liviu_s3.py
+          branch="liviu-s3-fix-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git switch -c "$branch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add boards/Liviu-S3 boards/_boards_json/liviu-s3-n16r8.json boards/pinouts/pins_arduino.h tools/check_liviu_s3.py
+          if ! git diff --cached --quiet; then
+            git commit -m "Add dedicated Liviu S3 N16R8 ST7789 board profile"
+          fi
+          git push origin "HEAD:refs/heads/$branch"
+          echo "### S3 source changes saved" >> "$GITHUB_STEP_SUMMARY"
+          echo "Branch: $branch. Main was not modified by this run." >> "$GITHUB_STEP_SUMMARY"
+          echo "Compilation and physical hardware checks are separate." >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install host tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-multilib g++-multilib
+          python -m pip install platformio==6.1.19 requests intelhex esptool
+      - name: Build S3 firmware
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m platformio run -e liviu-s3-n16r8 -j 4 2>&1 | tee build-liviu-s3.log
+          test -s Bruce-liviu-s3-n16r8.bin
+          sha256sum Bruce-liviu-s3-n16r8.bin > SHA256SUMS-liviu-s3.txt
+      - name: Save firmware and matching ELF
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bruce-liviu-s3-n16r8
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            Bruce-liviu-s3-n16r8.bin
+            SHA256SUMS-liviu-s3.txt
+            .pio/build/liviu-s3-n16r8/firmware.elf
+            .pio/build/liviu-s3-n16r8/partitions.bin
+      - name: Save build log even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Liviu-S3-build-log
+          retention-days: 14
+          if-no-files-found: ignore
+          path: build-liviu-s3.log
+          
