@@ -46,9 +46,15 @@ void _setup_gpio() {
 int getBattery() { return 0; }
 bool isCharging() { return false; }
 
-// GPIO подсветки не используется.
+// GPIO подсветки используется.
 void _setBrightness(uint8_t brightval) {
-    (void)brightval;
+    if (brightval > 100) brightval = 100;
+
+    const uint8_t duty =
+        (static_cast<uint16_t>(brightval) * 255) / 100;
+
+    pinMode(TFT_BL, OUTPUT);
+    analogWrite(TFT_BL, duty);
 }
 
 void InputHandler() {
