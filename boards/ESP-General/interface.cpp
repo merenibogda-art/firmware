@@ -3,8 +3,8 @@
 
 static void outputHigh(int pin) {
     if (pin < 0) return;
-    digitalWrite(pin, HIGH);
     pinMode(pin, OUTPUT);
+    digitalWrite(pin, HIGH);
 }
 
 void _setup_gpio() {
@@ -19,8 +19,8 @@ void _setup_gpio() {
     outputHigh(TFT_DC);
     outputHigh(W5500_RST_PIN);
 
-    digitalWrite(NRF24_CE_PIN, LOW);
     pinMode(NRF24_CE_PIN, OUTPUT);
+    digitalWrite(NRF24_CE_PIN, LOW);
 
     pinMode(CC1101_GDO0_PIN, INPUT);
     pinMode(W5500_INT_PIN, INPUT_PULLUP);
@@ -29,8 +29,8 @@ void _setup_gpio() {
     pinMode(DW_BTN, INPUT_PULLUP);
     pinMode(SEL_BTN, INPUT_PULLUP);
 
-    digitalWrite(TXLED, LOW);
     pinMode(TXLED, OUTPUT);
+    digitalWrite(TXLED, LOW);
     pinMode(RXLED, INPUT);
 
     // Начальные настройки для чистого хранилища.
