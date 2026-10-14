@@ -43,8 +43,8 @@ static const uint8_t SCK = 12;
 
 // Подсветка пока НЕ управляется GPIO.
 // BL физически отсоединить от GPIO18.
-#define TFT_BL -1
-#define BACKLIGHT -1
+#define TFT_BL 18
+#define BACKLIGHT 18
 #define TFT_BACKLIGHT_ON 1
 #define MINBRIGHT 1
 
